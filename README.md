@@ -81,3 +81,66 @@
      * HLS视频片段：`/var/www/html/hls/stream-{序号}.ts`
 
 
+## Docker部署
+
+### 使用Docker Compose部署
+
+1. 构建并启动服务：
+```bash
+docker-compose up -d
+```
+
+2. 查看日志：
+```bash
+docker-compose logs -f
+```
+
+3. 停止服务：
+```bash
+docker-compose down
+```
+
+### 手动Docker部署
+
+1. 构建镜像：
+```bash
+docker build -t webrtc-streaming .
+```
+
+2. 运行容器：
+```bash
+docker run -d \
+  -p 80:80 \
+  -p 1935:1935 \
+  -p 3000:3000 \
+  --name webrtc-streaming \
+  webrtc-streaming
+```
+
+### Docker部署注意事项
+
+1. 端口映射：
+   - 80: HTTP服务
+   - 1935: RTMP服务
+   - 3000: WebRTC服务
+
+2. 数据持久化：
+   - HLS数据：/var/www/html/hls
+   - Node HLS数据：/app/public/node-hls
+
+3. 环境变量：
+   - NODE_ENV=production
+
+4. 容器管理：
+```bash
+# 查看容器日志
+docker logs -f webrtc-streaming
+
+# 进入容器
+docker exec -it webrtc-streaming bash
+
+# 重启容器
+docker restart webrtc-streaming
+```
+
+

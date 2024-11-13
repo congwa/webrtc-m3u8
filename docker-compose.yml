@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  webrtc-streaming:
+    build: .
+    ports:
+      - "80:80"      # HTTP
+      - "1935:1935"  # RTMP
+      - "3000:3000"  # WebRTC服务器
+    volumes:
+      - hls_data:/var/www/html/hls
+      - node_hls_data:/app/public/node-hls
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - streaming_network
+
+volumes:
+  hls_data:
+  node_hls_data:
+
+networks:
+  streaming_network:
+    driver: bridge 
