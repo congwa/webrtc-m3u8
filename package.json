@@ -1,0 +1,28 @@
+{
+  "name": "webrtc-live-streaming",
+  "version": "1.0.0",
+  "description": "WebRTC screen capture and live streaming server",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "wrtc": "^0.4.7",
+    "fluent-ffmpeg": "^2.1.2",
+    "path": "^0.12.7"
+  },
+  "keywords": [
+    "webrtc",
+    "streaming",
+    "rtmp",
+    "hls",
+    "screen-capture"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 

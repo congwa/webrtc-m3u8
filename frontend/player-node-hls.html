@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Node HLS直播播放器</title>
+    <link href="https://cdn.jsdelivr.net/npm/video.js@7.20.3/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/video.js@7.20.3/dist/video.min.js"></script>
+    <style>
+        .video-container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        .stream-info {
+            text-align: center;
+            margin: 10px 0;
+            color: #666;
+        }
+        .stream-selector {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .stream-selector select {
+            padding: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stream-info">
+        <h2>Node HLS 直播播放器</h2>
+        <p>当前播放: Node.js生成的HLS流</p>
+    </div>
+
+    <div class="stream-selector">
+        <select id="streamSelect" onchange="changeStream(this.value)">
+            <option value="/node-hls/node-stream.m3u8">Node HLS流</option>
+            <option value="/hls/stream.m3u8">Nginx HLS流</option>
+        </select>
+    </div>
+
+    <div class="video-container">
+        <video id="player" 
+               class="video-js vjs-default-skin"
+               controls
+               width="800"
+               height="450">
+            <source src="/node-hls/node-stream.m3u8" type="application/x-mpegURL">
+        </video>
+    </div>
+
+    <script>
+        var player = videojs('player', {
+            liveui: true,
+            fluid: true,
+            html5: {
+                hls: {
+                    enableLowInitialPlaylist: true,
+                    smoothQualityChange: true,
+                    overrideNative: true
+                }
+            }
+        });
+
+        function changeStream(url) {
+            player.src({
+                src: url,
+                type: 'application/x-mpegURL'
+            });
+            player.play();
+        }
+
+        // 错误处理
+        player.on('error', function() {
+            console.log('播放器错误:', player.error());
+        });
+
+        // 添加实时状态显示
+        player.on('playing', function() {
+            console.log('直播开始播放');
+        });
+
+        player.on('waiting', function() {
+            console.log('等待数据...');
+        });
+    </script>
+</body>
+</html> 
